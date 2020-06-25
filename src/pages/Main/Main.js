@@ -55,7 +55,7 @@ const Main = () => {
         </BoxNav>
       </Header>
       <SignInModal visible={signInModal} isCloseSignIn={closeSignInModal} />
-      <SignUpModal visible={signUpModal} isCloseSignIn={closeSignUpModal} />
+      <SignUpModal visible={signUpModal} isCloseSignUp={closeSignUpModal} />
       <MainTag>
         <Sections>
           <img

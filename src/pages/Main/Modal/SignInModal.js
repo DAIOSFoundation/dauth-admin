@@ -1,29 +1,36 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "./Modal";
+import SignInputBox from "../../../components/InputBox/SignInputBox";
 import Button from "../../../components/Button/Button";
+import SecondaryButton from "../../../components/Button/SecondaryButton";
 
 const SignInModal = ({ visible, isCloseSignIn }) => {
   const [inputs, setInputs] = useState({
-    id: "",
+    email: "",
     password: "",
   });
 
-  const { id, password } = inputs;
+  const { email, password } = inputs;
+  const history = useHistory();
 
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({
+      ...inputs,
       [name]: value,
     });
   };
 
   const onLogin = () => {
+    console.log("onLogin: ", inputs);
     setInputs({
-      id: "",
+      email: "",
       password: "",
     });
     isCloseSignIn();
+    history.push("/product/status");
   };
 
   return (
@@ -33,28 +40,33 @@ const SignInModal = ({ visible, isCloseSignIn }) => {
         <Wrapper>
           <Contents>
             <Info>
-              <span>ID</span>
-              <input
+              <span>Email</span>
+              <SignInputBox
                 type="text"
-                name="id"
-                value={id}
-                placeholder="ID를 입력하세요."
+                name="email"
+                value={email}
+                placeholder="Email를 입력하세요."
                 onChange={onChange}
               />
             </Info>
             <Info>
               <span>Password</span>
-              <input
+              <SignInputBox
                 type="password"
                 name="password"
                 value={password}
-                placeholder="Password를 입력하세요."
+                placeholder="password 입력하세요."
                 onChange={onChange}
               />
             </Info>
           </Contents>
-          <ButtonBox onClick={onLogin}>
-            <Button>로그인</Button>
+          <ButtonBox>
+            <ButtonWrap onClick={onLogin}>
+              <Button>로그인</Button>
+            </ButtonWrap>
+            <ButtonWrap onClick={isCloseSignIn}>
+              <SecondaryButton>취소</SecondaryButton>
+            </ButtonWrap>
           </ButtonBox>
         </Wrapper>
       </SignInModalPage>
@@ -66,7 +78,7 @@ export default SignInModal;
 
 const SignInModalPage = styled.div`
   position: relative;
-  padding: 35px 0;
+  padding: 50px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,18 +112,23 @@ const Info = styled.div`
   margin: 22px 0;
   span {
     min-width: 90px;
+    margin: 0 20px;
     font-size: 21px;
     line-height: 1.4;
   }
   input {
     min-width: 200px;
-    margin: 0 16px;
     flex: 1;
+    margin: 0 16px;
     padding: 10px 10px;
+    font-size: 18px;
   }
 `;
 
 const ButtonBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 15px 13px;
   width: 100%;
   button {
@@ -122,4 +139,9 @@ const ButtonBox = styled.div`
       font-size: 20px;
     }
   }
+`;
+
+const ButtonWrap = styled.div`
+  width: 40%;
+  margin: 0 10px;
 `;
