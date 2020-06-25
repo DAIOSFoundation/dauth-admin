@@ -36,7 +36,7 @@ export default function SimpleSelect() {
           inputProps={{ "aria-label": "Without label" }}
         >
           <MenuItem value="">
-            <em>가입일</em>
+            <em>등록일</em>
           </MenuItem>
         </Select>
       </FormControl>

@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
@@ -25,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
+    textDecoration: "none",
+  },
+  nestedText: {
+    textDecoration: "none",
+    color: "black",
   },
 }));
 
@@ -42,12 +48,14 @@ export default function NestedList() {
       aria-labelledby="nested-list-subheader"
       className={classes.root}
     >
-      <ListItem button>
-        <ListItemIcon>
-          <DraftsIcon />
-        </ListItemIcon>
-        <ListItemText primary="DAIB" />
-      </ListItem>
+      <Link to="/" className={classes.nestedText}>
+        <ListItem button>
+          <ListItemIcon>
+            <DraftsIcon />
+          </ListItemIcon>
+          <ListItemText primary="DAIB" />
+        </ListItem>
+      </Link>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
           <InboxIcon />
@@ -57,32 +65,40 @@ export default function NestedList() {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="상품 조회" />
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="상품 등록" />
-          </ListItem>
+          <Link to="/product/status" className={classes.nestedText}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="상품 조회" />
+            </ListItem>
+          </Link>
+          <Link to="/product/register" className={classes.nestedText}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="상품 등록" />
+            </ListItem>
+          </Link>
         </List>
       </Collapse>
-      <ListItem button>
-        <ListItemIcon>
-          <SendIcon />
-        </ListItemIcon>
-        <ListItemText primary="고객 관리" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <SendIcon />
-        </ListItemIcon>
-        <ListItemText primary="결제 관리" />
-      </ListItem>
+      <Link to="/customer" className={classes.nestedText}>
+        <ListItem button>
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText primary="고객 관리" />
+        </ListItem>
+      </Link>
+      <Link to="/payment" className={classes.nestedText}>
+        <ListItem button>
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText primary="결제 관리" />
+        </ListItem>
+      </Link>
     </List>
   );
 }
