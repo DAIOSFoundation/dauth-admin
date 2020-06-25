@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import SignInModal from "./Modal/SignInModal";
+import SignUpModal from "./Modal/SignUpModal";
 
 const Main = () => {
   const [signInModal, setSignInModal] = useState(false);
@@ -54,6 +55,7 @@ const Main = () => {
         </BoxNav>
       </Header>
       <SignInModal visible={signInModal} isCloseSignIn={closeSignInModal} />
+      <SignUpModal visible={signUpModal} isCloseSignIn={closeSignUpModal} />
       <MainTag>
         <Sections>
           <img

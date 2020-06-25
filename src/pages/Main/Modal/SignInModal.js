@@ -1,22 +1,62 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
+import Button from "../../../components/Button/Button";
 
 const SignInModal = ({ visible, isCloseSignIn }) => {
+  const [inputs, setInputs] = useState({
+    id: "",
+    password: "",
+  });
+
+  const { id, password } = inputs;
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    setInputs({
+      [name]: value,
+    });
+  };
+
+  const onLogin = () => {
+    setInputs({
+      id: "",
+      password: "",
+    });
+    isCloseSignIn();
+  };
+
   return (
     <Modal visible={visible}>
       <SignInModalPage>
-        <Title>Sign In</Title>
-        <Contents>
-          <Info>
-            <span>ID</span>
-            <input type="text" />
-          </Info>
-          <Info>
-            <span>Password</span>
-            <input type="password" />
-          </Info>
-        </Contents>
+        <Title>SignIn</Title>
+        <Wrapper>
+          <Contents>
+            <Info>
+              <span>ID</span>
+              <input
+                type="text"
+                name="id"
+                value={id}
+                placeholder="ID를 입력하세요."
+                onChange={onChange}
+              />
+            </Info>
+            <Info>
+              <span>Password</span>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                placeholder="Password를 입력하세요."
+                onChange={onChange}
+              />
+            </Info>
+          </Contents>
+          <ButtonBox onClick={onLogin}>
+            <Button>로그인</Button>
+          </ButtonBox>
+        </Wrapper>
       </SignInModalPage>
     </Modal>
   );
@@ -44,6 +84,10 @@ const Title = styled.div`
   text-align: center;
 `;
 
+const Wrapper = styled.div`
+  height: 100%;
+`;
+
 const Contents = styled.div`
   padding: 15px 13px;
   width: 100%;
@@ -64,5 +108,18 @@ const Info = styled.div`
     margin: 0 16px;
     flex: 1;
     padding: 10px 10px;
+  }
+`;
+
+const ButtonBox = styled.div`
+  padding: 15px 13px;
+  width: 100%;
+  button {
+    width: 100%;
+    margin: 0;
+    padding: 9px 0;
+    span {
+      font-size: 20px;
+    }
   }
 `;
