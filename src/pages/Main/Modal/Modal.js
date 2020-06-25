@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 
 const Modal = ({ children, visible }) => {
-  console.log("ModalVisible: ", visible);
   const [animate, setAnimate] = useState(false);
   const [localVisible, setLocalVisibal] = useState(visible); // 상태가 true->false로 전환되는걸 감지하는 state
 
