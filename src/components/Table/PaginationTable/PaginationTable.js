@@ -72,12 +72,12 @@ const headCells = [
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "고객 코드",
   },
-  { id: "calories", numeric: true, disablePadding: false, label: "Calories" },
-  { id: "fat", numeric: true, disablePadding: false, label: "Fat (g)" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Carbs (g)" },
-  { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
+  { id: "calories", numeric: true, disablePadding: false, label: "고객명" },
+  { id: "fat", numeric: true, disablePadding: false, label: "Email" },
+  { id: "carbs", numeric: true, disablePadding: false, label: "가입일" },
+  { id: "protein", numeric: true, disablePadding: false, label: "요청" },
 ];
 
 function EnhancedTableHead(props) {
@@ -242,7 +242,6 @@ export default function EnhancedTable() {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -289,10 +288,6 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
@@ -306,7 +301,6 @@ export default function EnhancedTable() {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -357,7 +351,7 @@ export default function EnhancedTable() {
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableRow>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -374,10 +368,6 @@ export default function EnhancedTable() {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </div>
   );
 }
