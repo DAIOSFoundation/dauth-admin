@@ -8,6 +8,7 @@ import PaginationTable from "../../components/Table/PaginationTable/PaginationTa
 import Select from "../../components/Select/Select";
 import InputBox from "../../components/InputBox/InputBox";
 import Box from "@material-ui/core/Box";
+import CheckBox from "../../components/CheckBox/CheckBox";
 
 const ProductStatus = () => {
   return (
@@ -29,7 +30,6 @@ const ProductStatus = () => {
             <Button>검색</Button>
           </ButtonWrap>
         </SearchBox>
-        <SearchBox></SearchBox>
 
         <PaginationTable></PaginationTable>
       </Nav>
