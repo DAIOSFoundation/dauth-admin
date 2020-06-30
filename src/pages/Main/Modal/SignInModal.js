@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import Modal from "./Modal";
+import Modal from "../../../components/Modal/Modal";
 import SignInputBox from "../../../components/InputBox/SignInputBox";
 import Button from "../../../components/Button/Button";
 import SecondaryButton from "../../../components/Button/SecondaryButton";

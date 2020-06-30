@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import CheckBox from "../../CheckBox/CheckBox";
 import Button from "../../Button/Button";
+import RemoveModal from "../../../pages/Product/Modal/RemoveModal";
 
 const ProductCard = ({ idx, id, title, date }) => {
+  const [removeModal, setRemoveModal] = useState(false);
+
+  const onRemoveModal = () => {
+    setRemoveModal(true);
+  };
+  const closeRemoveModal = () => {
+    setRemoveModal(false);
+  };
   return (
     <TableRow>
       <CheckBoxWrap>
@@ -12,9 +21,10 @@ const ProductCard = ({ idx, id, title, date }) => {
       </CheckBoxWrap>
       <ProductName>{title}</ProductName>
       <RegisterDate>{date}</RegisterDate>
-      <Actions>
+      <Actions onClick={onRemoveModal}>
         <Button>삭제</Button>
       </Actions>
+      <RemoveModal visible={removeModal} isCloseModal={closeRemoveModal} />
     </TableRow>
   );
 };

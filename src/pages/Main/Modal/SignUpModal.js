@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Modal from "./Modal";
+import Modal from "../../../components/Modal/Modal";
 import SignInputBox from "../../../components/InputBox/SignInputBox";
 import Button from "../../../components/Button/Button";
 import SecondaryButton from "../../../components/Button/SecondaryButton";
@@ -63,7 +63,7 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
                 type="password"
                 name="rePassword"
                 value={rePassword}
-                placeholder="비밀번호를 다시 입력해주세요."
+                placeholder="비밀번호를 입력해주세요."
                 onChange={onChange}
               />
             </Info>

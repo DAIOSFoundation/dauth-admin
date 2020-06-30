@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import CheckBox from "../../CheckBox/CheckBox";
 import Button from "../../Button/Button";
+import CancleModal from "../../../pages/Payment/Modal/CancleModal";
 
 const PaymentCard = ({ paymentcode, user, email, amount, date }) => {
+  const [cancleModal, setCancleModal] = useState(false);
+
+  const onCancleModal = () => {
+    setCancleModal(true);
+  };
+  const closeCancleModal = () => {
+    setCancleModal(false);
+  };
   return (
     <TableRow>
       <CheckBoxWrap>
@@ -15,9 +24,10 @@ const PaymentCard = ({ paymentcode, user, email, amount, date }) => {
       <UserEmail>{email}</UserEmail>
       <PayAmount>{amount}</PayAmount>
       <RegisterDate>{date}</RegisterDate>
-      <Actions>
+      <Actions onClick={onCancleModal}>
         <Button>결제 취소</Button>
       </Actions>
+      <CancleModal visible={cancleModal} isCloseModal={closeCancleModal} />
     </TableRow>
   );
 };
