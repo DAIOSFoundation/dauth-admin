@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Modal from "./Modal";
+import Modal from "../../../components/Modal/Modal";
 import SignInputBox from "../../../components/InputBox/SignInputBox";
 import Button from "../../../components/Button/Button";
 import SecondaryButton from "../../../components/Button/SecondaryButton";
@@ -21,14 +21,39 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
     });
   };
 
-  const onSignUp = () => {
+  const onSignUp = async () => {
     console.log("onSignUp: ", inputs);
-    setInputs({
-      email: "",
-      password: "",
-      rePassword: "",
-    });
-    isCloseSignUp();
+    try {
+      if (password === rePassword) {
+        const res = await fetch(
+          "http://192.168.1.45:4000/account/web/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+            }),
+          }
+        );
+        const result = await res.json();
+        console.log("result: ", result);
+        if (res.status === 201) {
+          alert("회원가입 성공");
+          isCloseSignUp();
+        }
+      } else {
+        alert("다시 입력해주세요");
+        setInputs({
+          password: "",
+          rePassword: "",
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -63,7 +88,7 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
                 type="password"
                 name="rePassword"
                 value={rePassword}
-                placeholder="비밀번호를 다시 입력해주세요."
+                placeholder="비밀번호를 입력해주세요."
                 onChange={onChange}
               />
             </Info>

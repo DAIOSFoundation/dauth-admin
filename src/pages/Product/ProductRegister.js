@@ -5,8 +5,6 @@ import Nav from "../../components/Nav/Nav";
 import Button from "../../components/Button/Button";
 import Textarea from "../../components/Textarea/Textarea";
 import ProductInputBox from "../../components/InputBox/ProductInputBox";
-import { NONAME } from "dns";
-import { tsNonNullExpression } from "@babel/types";
 
 const ProductRegister = () => {
   const [products, setProducts] = useState({
@@ -40,9 +38,12 @@ const ProductRegister = () => {
     };
     reader.readAsDataURL(file);
   };
-  let $imagePrev = null;
 
   console.log("onChange value: ", products);
+  let image_preview = null;
+  if (files !== "") {
+    image_preview = <img src={imageUrl} alt="imgUpload" />;
+  }
   return (
     <Nav>
       <ProductRegisterTag>
@@ -72,7 +73,7 @@ const ProductRegister = () => {
               <span>상세설명</span>
               <Textarea
                 type="text"
-                name="productImg"
+                name="productInfo"
                 value={productInfo}
                 placeholder="상품에 대한 설명을 입력하세요."
                 onChange={onChange}
@@ -88,10 +89,10 @@ const ProductRegister = () => {
                 style={{ display: "none" }}
               />
               <UploadButton type="button" onClick={handleImgClick}>
-                Image Upload
+                <span>Image Upload</span>
+                <UploadImgBox>{image_preview}</UploadImgBox>
               </UploadButton>
             </Info>
-            <img src={imageUrl} alt="imgUpload" />
           </Contents>
           <ButtonBox>
             <Button>상품등록</Button>
@@ -133,14 +134,27 @@ const Info = styled.div`
 `;
 
 const UploadButton = styled.button`
+  position: relative;
   min-width: 200px;
-  height: 200px;
+  height: 400px;
   margin: 0 16px;
-  padding: 10px 10px;
+  padding: 0;
   flex: 1;
   background-color: #ffffff;
   border: 1px solid rgb(118, 118, 118);
   border-radius: 4px;
+`;
+
+const UploadImgBox = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ButtonBox = styled.div`
