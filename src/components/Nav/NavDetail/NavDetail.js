@@ -7,13 +7,16 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import styled from "styled-components";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import PaymentIcon from "@material-ui/icons/Payment";
+import WorkIcon from "@material-ui/icons/Work";
+import FindInPageIcon from "@material-ui/icons/FindInPage";
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,14 +54,14 @@ export default function NestedList() {
       <Link to="/" className={classes.nestedText}>
         <ListItem button>
           <ListItemIcon>
-            <DraftsIcon />
+            <RotateLeftIcon />
           </ListItemIcon>
           <ListItemText primary="DAIB" />
         </ListItem>
       </Link>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
-          <InboxIcon />
+          <WorkIcon />
         </ListItemIcon>
         <ListItemText primary="상품 관리" />
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -68,7 +71,7 @@ export default function NestedList() {
           <Link to="/product/status" className={classes.nestedText}>
             <ListItem button className={classes.nested}>
               <ListItemIcon>
-                <StarBorder />
+                <FindInPageIcon />
               </ListItemIcon>
               <ListItemText primary="상품 조회" />
             </ListItem>
@@ -76,7 +79,7 @@ export default function NestedList() {
           <Link to="/product/register" className={classes.nestedText}>
             <ListItem button className={classes.nested}>
               <ListItemIcon>
-                <StarBorder />
+                <NoteAddIcon />
               </ListItemIcon>
               <ListItemText primary="상품 등록" />
             </ListItem>
@@ -86,7 +89,7 @@ export default function NestedList() {
       <Link to="/customer" className={classes.nestedText}>
         <ListItem button>
           <ListItemIcon>
-            <SendIcon />
+            <AccountBoxIcon />
           </ListItemIcon>
           <ListItemText primary="고객 관리" />
         </ListItem>
@@ -94,7 +97,7 @@ export default function NestedList() {
       <Link to="/payment" className={classes.nestedText}>
         <ListItem button>
           <ListItemIcon>
-            <SendIcon />
+            <PaymentIcon />
           </ListItemIcon>
           <ListItemText primary="결제 관리" />
         </ListItem>

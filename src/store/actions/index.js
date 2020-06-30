@@ -2,7 +2,7 @@
 
 export const addList = (list) => {
   return {
-    type: "ADD_SONG",
+    type: "UPDATE_DATE",
     payload: list,
   };
 };

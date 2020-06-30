@@ -1,38 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import Nav from "../../components/Nav/Nav";
-import Button from "../../components/Button/Button";
-import DatePicker from "../../components/DatePicker/DatePicker";
-import PaginationTable from "../../components/Table/PaginationTable/PaginationTable";
-import Select from "../../components/Select/Select";
-import InputBox from "../../components/InputBox/InputBox";
 import CheckBox from "../../components/CheckBox/CheckBox";
-import TableCard from "../../components/TableCard/TableCard";
+import ProductCard from "../../components/TableCard/ProductCard/ProductCard";
+import SearchBox from "../../components/SearchBox/SearchBox";
+import DefaultButton from "../../components/Button/DefaultButton";
+import Pagination from "../../components/Pagination/Pagination";
+import ResultText from "../../components/ResultTable/ResultText/ResultText";
 
 const ProductStatus = () => {
-  const [pagination, setPagination] = useState(1);
+  const [search, setSearch] = useState(false);
+  const [input, setInput] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+  const [postsArr, setPostsArr] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [checked, setChecked] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5);
+
+  useEffect(() => {
+    // const token = localStorage.getItem("token")
+    console.log("Get 실행");
+    fetch("/data/data.json")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.data);
+        setPostsArr(res.data);
+        setTotal(res.data.length);
+      });
+  }, []);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = postsArr.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleSearch = () => {
+    setSearch(true);
+    console.log(search);
+    console.log("시작날짜 : ", dateFrom);
+    console.log("종료날짜 : ", dateTo);
+    console.log("고객명 : ", input);
+  };
+
+  const handleInput = (e) => {
+    setInput(e.target.value);
+  };
+
+  const handleDateFrom = (e) => {
+    setDateFrom(e.target.value);
+  };
+
+  const handleDateTo = (e) => {
+    setDateTo(e.target.value);
+  };
+
+  const handleCheckBox = () => {};
 
   return (
     <div>
       <Nav>
-        <SearchBox>
-          <PeriodWrap>
-            <PeriodText>기간</PeriodText>
-            <Select />
-            <DatePicker />
-            <PeriodText>~</PeriodText>
-            <DatePicker />
-          </PeriodWrap>
-          <PeriodWrap>
-            <PeriodText>고객명</PeriodText>
-            <InputBox />
-          </PeriodWrap>
-          <ButtonWrap>
-            <Button>검색</Button>
-          </ButtonWrap>
+        <SearchBox
+          handleDateFrom={handleDateFrom}
+          handleDateTo={handleDateTo}
+          handleSearch={handleSearch}
+          handleInput={handleInput}
+        >
+          등록일
         </SearchBox>
-        <ResultText>검색 결과 13건 (기간: 2020-05-30 ~ 2020-06-20)</ResultText>
+        <ResultText total={total} dateFrom={dateFrom} dateTo={dateTo} />
+
         <ResultBox>
           <TableHead>
             <TableRow>
@@ -45,31 +87,31 @@ const ProductStatus = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableCard />
-
-            <TableCard />
-
-            <TableCard />
-
-            <TableCard />
-
-            <TableCard />
-
-            <TableCard />
-
-            <TableCard />
-
-            <TableCard />
-
-            <TableCard />
+            {currentPosts &&
+              currentPosts.map((list, idx) => (
+                <ProductCard
+                  key={idx}
+                  id={list.id}
+                  title={list.title}
+                  date={list.date}
+                />
+              ))}
           </TableBody>
           <TableFooter>
             <TableRow>
-              <Pagination colSpan="4">1~5 of 13</Pagination>
+              <PaginationWrap colSpan="4">
+                <Pagination
+                  postsPerPage={postsPerPage}
+                  totalPosts={postsArr.length}
+                  paginate={paginate}
+                />
+              </PaginationWrap>
+              {/* <ButtonWrap colSpan="1">
+                <DefaultButton>선택 삭제</DefaultButton>
+              </ButtonWrap> */}
             </TableRow>
           </TableFooter>
         </ResultBox>
-        {/* <PaginationTable></PaginationTable> */}
       </Nav>
     </div>
   );
@@ -77,42 +119,13 @@ const ProductStatus = () => {
 
 export default withRouter(ProductStatus);
 
-const SearchBox = styled.div`
+const ResultBox = styled.div`
   width: 100%;
   margin-bottom: 20px;
   margin-top: 20px;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   background-color: #fff;
-`;
-
-const PeriodWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 30px;
-`;
-
-const PeriodText = styled.span`
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 50px;
-`;
-
-const ButtonWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-`;
-
-const ResultText = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  padding: 10px 30px 0 30px;
-`;
-
-const ResultBox = styled(SearchBox)`
   display: table;
   table-layout: fixed;
 `;
@@ -120,7 +133,6 @@ const ResultBox = styled(SearchBox)`
 const TableHead = styled.thead``;
 
 const TableRow = styled.tr`
-  border-bottom: 1px solid black;
   height: 50px;
 `;
 
@@ -141,10 +153,20 @@ const Actions = styled(ProductName)``;
 
 const TableBody = styled(TableHead)``;
 
-const TableFooter = styled(TableBody)``;
+const TableFooter = styled(TableHead)``;
 
-const Pagination = styled.td`
-  display: table-cell;
+const PaginationWrap = styled.td`
+  height: 50px;
   vertical-align: middle;
   text-align: center;
+  align-self: center;
 `;
+
+// const ButtonWrap = styled.td`
+//   vertical-align: middle;
+//   text-align: center;
+//   button {
+//     font-size: 12px;
+//     height: 30px;
+//   }
+// `;
