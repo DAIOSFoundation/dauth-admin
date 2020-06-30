@@ -15,11 +15,11 @@ export default function ContainedButtons({ children, handleSearch }) {
 
   return (
     <div className={classes.root}>
-      {/* <Button variant="contained">Default</Button> */}
-      <Button onClick={handleSearch} variant="contained" color="primary">
+      <Button variant="contained">{children}</Button>
+      {/* <Button onClick={handleSearch} variant="contained" color="primary">
         {children}
       </Button>
-      {/* <Button variant="contained" color="secondary">
+      <Button variant="contained" color="secondary">
         Secondary
       </Button>
       <Button variant="contained" disabled>

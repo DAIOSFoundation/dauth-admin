@@ -1,0 +1,100 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "paymentcode": 12345,
+      "user": "예술",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.23 13:00"
+    },
+    {
+      "id": 2,
+      "paymentcode": 12345,
+      "user": "일러스트레이션",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.21 13:00"
+    },
+    {
+      "id": 3,
+      "paymentcode": 12345,
+      "user": "인테리어",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.19 13:00"
+    },
+    {
+      "id": 4,
+      "paymentcode": 12345,
+      "user": "그림",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.17 13:00"
+    },
+    {
+      "id": 5,
+      "paymentcode": 12345,
+      "user": "여성 패션",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.15 13:00"
+    },
+    {
+      "id": 6,
+      "paymentcode": 12345,
+      "user": "그래픽디자인",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.13 13:00"
+    },
+    {
+      "id": 7,
+      "paymentcode": 12345,
+      "user": "꽃",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.11 13:00"
+    },
+    {
+      "id": 8,
+      "paymentcode": 12345,
+      "user": "교육",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.09 13:00"
+    },
+    {
+      "id": 9,
+      "paymentcode": 12345,
+      "user": "사진",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.07 13:00"
+    },
+    {
+      "id": 10,
+      "paymentcode": 12345,
+      "user": "포스터",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.05 13:00"
+    },
+    {
+      "id": 11,
+      "paymentcode": 12345,
+      "user": "네일",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.03 13:00"
+    },
+    {
+      "id": 12,
+      "paymentcode": 12345,
+      "user": "포스터",
+      "email": "abc123@gmail.com",
+      "amount": "10000원",
+      "date": "20.06.01 13:00"
+    }
+  ]
+}

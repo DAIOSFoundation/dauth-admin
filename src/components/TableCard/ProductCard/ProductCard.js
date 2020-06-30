@@ -1,17 +1,17 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
-import CheckBox from "../../components/CheckBox/CheckBox";
-import Button from "../../components/Button/Button";
+import CheckBox from "../../CheckBox/CheckBox";
+import Button from "../../Button/Button";
 
-const TableCard = () => {
+const ProductCard = ({ idx, id, title, date }) => {
   return (
     <TableRow>
       <CheckBoxWrap>
         <CheckBox />
       </CheckBoxWrap>
-      <ProductName>One</ProductName>
-      <RegisterDate>20.06.30 13:00</RegisterDate>
+      <ProductName>{title}</ProductName>
+      <RegisterDate>{date}</RegisterDate>
       <Actions>
         <Button>삭제</Button>
       </Actions>
@@ -19,7 +19,7 @@ const TableCard = () => {
   );
 };
 
-export default withRouter(TableCard);
+export default withRouter(ProductCard);
 
 const TableRow = styled.tr`
   border-bottom: 1px solid black;

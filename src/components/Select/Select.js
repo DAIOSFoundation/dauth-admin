@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleSelect() {
+export default function SimpleSelect({ children }) {
   const classes = useStyles();
   const [age, setAge] = React.useState("");
 
@@ -36,7 +36,7 @@ export default function SimpleSelect() {
           inputProps={{ "aria-label": "Without label" }}
         >
           <MenuItem value="">
-            <em>등록일</em>
+            <em>{children}</em>
           </MenuItem>
         </Select>
       </FormControl>
