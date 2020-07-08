@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import Modal from "./Modal";
+import Modal from "../../../components/Modal/Modal";
 import SignInputBox from "../../../components/InputBox/SignInputBox";
 import Button from "../../../components/Button/Button";
 import SecondaryButton from "../../../components/Button/SecondaryButton";
@@ -23,14 +23,34 @@ const SignInModal = ({ visible, isCloseSignIn }) => {
     });
   };
 
-  const onLogin = () => {
+  const onLogin = async () => {
     console.log("onLogin: ", inputs);
-    setInputs({
-      email: "",
-      password: "",
-    });
-    isCloseSignIn();
-    history.push("/product/status");
+    try {
+      const res = await fetch("http://192.168.1.45:4000/account/web/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      const result = await res.json();
+      console.log("res: ", result);
+      if (result.Authentication) {
+        history.push("/product/status");
+        isCloseSignIn();
+      } else {
+        alert("정보를 잘못 입력 하셨습니다. 다시 입력해 주세요.");
+        setInputs({
+          email: "",
+          password: "",
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

@@ -10,12 +10,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ContainedButtons({ children, handleSearch }) {
+export default function ContainedButtons({ children, handleSearch, onClick }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Button variant="contained">{children}</Button>
+      <Button variant="contained" onClick={onClick}>
+        {children}
+      </Button>
       {/* <Button onClick={handleSearch} variant="contained" color="primary">
         {children}
       </Button>
