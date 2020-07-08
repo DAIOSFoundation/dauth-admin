@@ -20,11 +20,15 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
       [name]: value,
     });
   };
+  const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
   const onSignUp = async () => {
     console.log("onSignUp: ", inputs);
+    if (email === "" && password === "" && rePassword === "") {
+      alert("정보 입력바람");
+    }
     try {
-      if (password === rePassword) {
+      if (email.match(regExp) !== null && password === rePassword) {
         const res = await fetch(
           "http://192.168.1.45:4000/account/web/register",
           {
@@ -47,6 +51,7 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
       } else {
         alert("다시 입력해주세요");
         setInputs({
+          email: "",
           password: "",
           rePassword: "",
         });
