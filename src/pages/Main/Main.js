@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useCallback, useState, memo} from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import SignInModal from "./Modal/SignInModal";
 import SignUpModal from "./Modal/SignUpModal";
+import Input from "@material-ui/core/Input";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import * as loginActions from "../../store/modules/login/actions";
 
 const Main = () => {
+  const dispatch = useDispatch();
   const [signInModal, setSignInModal] = useState(false);
   const [signUpModal, setSignUpModal] = useState(false);
-
+  const { email, users } = useSelector(
+    (state) => ({
+      email: state.login.email,
+      users: state.login.users,
+    }),
+    shallowEqual
+  );
   const openSignInModal = () => {
     console.log("signin modal open");
     setSignInModal(true);
@@ -25,9 +35,51 @@ const Main = () => {
     setSignUpModal(false);
   };
 
+  const handleInputChange = (e) => {
+    dispatch(loginActions.change_email(e.target.value));
+  };
+
+  useEffect(() => {
+    if (email) {
+      // console.log('rerendered!!')
+    }
+  }, [email]);
+
+  const tryLogin = useCallback(() => {
+    const params = {
+      email,
+    };
+    dispatch(loginActions.post_login(params));
+  }, [dispatch, email]);
+
+  const userIds = useMemo(() => {
+    let userString = 'userString: ';
+    for (let i = 0; i < users.length; i++) {
+      userString = userString + users[i]._id
+    }
+    return userString;
+  }, [users])
+
   return (
     <MainPage>
       <Header>
+        <Input
+          onChange={handleInputChange}
+          defaultValue=""
+          inputProps={{ "aria-label": "description" }}
+        />
+        <div>{email}</div>
+        <br />
+        {userIds}
+        <Button onClick={tryLogin}>로그인</Button>
+        {users && users.length > 0
+          ? users.map((item, index) => (
+              <div key={index}>
+                <div>{item.name}</div>
+                <div>{item.firebaseToken}</div>
+              </div>
+            ))
+          : null}
         <BoxWrap>
           <Link to="#">
             <span>Introduce</span>
@@ -68,6 +120,7 @@ const Main = () => {
             alt="mainLogo"
           />
           <h1>DAuth</h1>
+
           <h2>세상에서 가장 안전하고 간편한 분산인증 시스템</h2>
           <h3>
             사용자로부터 인증받지 않은 개인정보는 출력, 전송이 불가능한 <br />
