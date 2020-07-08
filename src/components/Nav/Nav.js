@@ -94,8 +94,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PersistentDrawerLeft({ children }) {
-  const token = localStorage.getItem("access_token");
-  console.log("token: ", token);
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);

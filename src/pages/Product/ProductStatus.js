@@ -19,7 +19,8 @@ const ProductStatus = () => {
   const [checked, setChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-
+  const token = localStorage.getItem("access_token");
+  console.log("token: ", token);
   useEffect(() => {
     // const token = localStorage.getItem("token")
     console.log("Get 실행");
