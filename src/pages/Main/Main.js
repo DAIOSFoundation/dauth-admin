@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useCallback, useState, memo} from "react";
+import React, { useEffect, useMemo, useCallback, useState, memo } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import SignInModal from "./Modal/SignInModal";
@@ -53,12 +53,12 @@ const Main = () => {
   }, [dispatch, email]);
 
   const userIds = useMemo(() => {
-    let userString = 'userString: ';
+    let userString = "userString: ";
     for (let i = 0; i < users.length; i++) {
-      userString = userString + users[i]._id
+      userString = userString + users[i]._id;
     }
     return userString;
-  }, [users])
+  }, [users]);
 
   return (
     <MainPage>

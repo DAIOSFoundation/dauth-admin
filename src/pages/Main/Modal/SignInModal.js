@@ -39,7 +39,8 @@ const SignInModal = ({ visible, isCloseSignIn }) => {
       const result = await res.json();
       console.log("res: ", result);
       if (result.Authentication) {
-        //history.push("/product/status");
+        history.push("/product/status");
+        localStorage.setItem("access_token", result.Authentication);
         isCloseSignIn();
       } else {
         alert("정보를 잘못 입력 하셨습니다. 다시 입력해 주세요.");
