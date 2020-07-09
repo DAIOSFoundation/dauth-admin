@@ -42,8 +42,8 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
             }),
           }
         );
-        const result = await res.json();
-        console.log("result: ", result);
+        //const result = await res.json();
+
         if (res.status === 201) {
           alert("회원가입 성공");
           isCloseSignUp();
