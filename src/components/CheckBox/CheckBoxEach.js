@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 
 export default function Checkboxes({
-  handleCheckBox,
-  checkBox,
-  checkEachBox,
+  checkBoxEach,
   id,
   idx,
-  handleEachBox,
+  handleCheckBoxEach,
 }) {
   return (
     <div>
@@ -18,8 +16,8 @@ export default function Checkboxes({
       /> */}
       <Checkbox
         color="primary"
-        // checked={checkBox}
-        // onChange={(e) => handleCheckBox(e)}
+        checked={checkBoxEach}
+        onChange={(e) => handleCheckBoxEach(e, id, idx)}
         inputProps={{ "aria-label": "secondary checkbox" }}
       />
       {/* <Checkbox inputProps={{ "aria-label": "uncontrolled-checkbox" }} />

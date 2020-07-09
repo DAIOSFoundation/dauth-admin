@@ -16,13 +16,17 @@ const ProductStatus = () => {
   const [dateTo, setDateTo] = useState("");
   const [postsArr, setPostsArr] = useState([]);
   const [total, setTotal] = useState(0);
-  const [checked, setChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-  const token = localStorage.getItem("access_token");
-  console.log("token: ", token);
+  const [checkBox, setCheckBox] = useState(false);
+  const [checkBoxEach, setCheckBoxEach] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [handleId, setHandleId] = useState(0);
+  // const token = localStorage.getItem("access_token");
+
+  // console.log("token: ", token);
   useEffect(() => {
-    // const token = localStorage.getItem("token")
+    const token = localStorage.getItem("access_token");
     console.log("Get 실행");
     fetch("/data/data.json")
       .then((res) => res.json())
@@ -61,7 +65,32 @@ const ProductStatus = () => {
     setDateTo(e.target.value);
   };
 
-  const handleCheckBox = () => {};
+  const handleCheckBox = (e) => {
+    setCheckBox(e.target.checked);
+
+    if (checkBox) {
+      setCheckBoxEach(false);
+    } else if (!checkBox) {
+      setCheckBoxEach(true);
+    }
+    // console.log(checkBox);
+    // console.log(checkBoxEach);
+  };
+
+  const handleCheckBoxEach = (id, idx, e) => {
+    setIndex(idx);
+    setHandleId(id);
+    console.log("idx : ", index);
+    console.log("id : ", handleId);
+    if (index === id) {
+      setCheckBoxEach(e.target.checked);
+    }
+    if (checkBoxEach) {
+      setCheckBox(false);
+    } else if (!checkBoxEach) {
+      setCheckBox(true);
+    }
+  };
 
   return (
     <div>
@@ -80,7 +109,7 @@ const ProductStatus = () => {
           <TableHead>
             <TableRow>
               <CheckBoxWrap>
-                <CheckBox />
+                <CheckBox handleCheckBox={handleCheckBox} checkBox={checkBox} />
               </CheckBoxWrap>
               <ProductName>상품명</ProductName>
               <RegisterDate>등록일</RegisterDate>
@@ -92,9 +121,12 @@ const ProductStatus = () => {
               currentPosts.map((list, idx) => (
                 <ProductCard
                   key={idx}
+                  idx={idx}
                   id={list.id}
                   title={list.title}
                   date={list.date}
+                  checkBoxEach={checkBoxEach}
+                  handleCheckBoxEach={handleCheckBoxEach}
                 />
               ))}
           </TableBody>
