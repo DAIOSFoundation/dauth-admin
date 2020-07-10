@@ -8,6 +8,9 @@ import CheckBox from "../../components/CheckBox/CheckBox";
 import UserCard from "../../components/TableCard/UserCard/UserCard";
 import Pagination from "../../components/Pagination/Pagination";
 import DefaultButton from "../../components/Button/DefaultButton";
+import url from "../../config";
+
+const axios = require("axios");
 
 const Customer = () => {
   const [search, setSearch] = useState(false);
@@ -20,21 +23,33 @@ const Customer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem("access_token");
+  //   console.log("Get 실행");
+  //   fetch("/data/userdata.json")
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setPostsArr(res.data);
+  //       setTotal(res.data.length);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    // const token = localStorage.getItem("token")
+    // const token = localStorage.getItem("access_token");
     console.log("Get 실행");
-    fetch("/data/userdata.json")
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res.data);
-        setPostsArr(res.data);
-        setTotal(res.data.length);
-      });
+
+    axios.get("/data/userdata.json").then((res) => {
+      console.log(res.data);
+      setPostsArr(res.data.data);
+      setTotal(res.data.data.length);
+    });
   }, []);
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
   const currentPosts = postsArr.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
@@ -42,10 +57,28 @@ const Customer = () => {
 
   const handleSearch = () => {
     setSearch(true);
-    console.log(search);
     console.log("시작날짜 : ", dateFrom);
     console.log("종료날짜 : ", dateTo);
     console.log("고객명 : ", input);
+    console.log("Post 실행");
+    // const token = localStorage.getItem("access_token");
+    axios
+      .post(
+        "/data/userdata.json",
+        { startDate: "dateFrom", endDate: "dateTo", name: "input" },
+        {
+          headers: {
+            // "Content-Type": "application/json",
+            // Authorization: token,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      });
+    // .catch((err) => {
+    //   console.log(err);
+    // });
   };
 
   const handleInput = (e) => {
@@ -92,10 +125,10 @@ const Customer = () => {
                 <UserCard
                   key={idx}
                   id={list.id}
-                  usercode={list.usercode}
+                  usercode={list.id}
                   user={list.user}
                   email={list.email}
-                  date={list.date}
+                  createdAt={list.createdAt}
                 />
               ))}
           </TableBody>

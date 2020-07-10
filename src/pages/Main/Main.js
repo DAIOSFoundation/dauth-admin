@@ -50,7 +50,7 @@ const Main = () => {
       email,
     };
     dispatch(loginActions.post_login(params));
-  }, [dispatch, email]);
+  }, [email]);
 
   const userIds = useMemo(() => {
     let userString = "userString: ";
