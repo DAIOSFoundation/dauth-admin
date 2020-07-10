@@ -1,58 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../../../components/Modal/Modal";
 import SignInputBox from "../../../components/InputBox/SignInputBox";
 import Button from "../../../components/Button/Button";
 import SecondaryButton from "../../../components/Button/SecondaryButton";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import * as loginActions from "../../../store/modules/login/actions";
 
 const SignInModal = ({ visible, isCloseSignIn }) => {
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-  });
+  // const [inputs, setInputs] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const { email, password } = inputs;
+  const { email, password } = useSelector(
+    (state) => ({
+      email: state.login.email,
+      password: state.login.password,
+    }),
+    shallowEqual
+  );
+
+  //const { email, password } = inputs;
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onChange = (e) => {
     const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
-  const onLogin = async () => {
-    console.log("onLogin: ", inputs);
-    try {
-      const res = await fetch("http://192.168.1.45:4000/account/web/login", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-      const result = await res.json();
-      console.log("res: ", result);
-      if (result.Authentication) {
-        history.push("/product/status");
-        localStorage.setItem("access_token", result.Authentication);
-        isCloseSignIn();
-      } else {
-        alert("정보를 잘못 입력 하셨습니다. 다시 입력해 주세요.");
-        setInputs({
-          email: "",
-          password: "",
-        });
-      }
-    } catch (e) {
-      console.error(e);
+    // setInputs({
+    //   ...inputs,
+    //   [name]: value,
+    // });
+    if (name === "email") {
+      dispatch(loginActions.change_email(value));
+    } else {
+      dispatch(loginActions.change_password(value));
     }
   };
+
+  // const onLogin = async () => {
+  //   console.log("onLogin: ", inputs);
+  //   try {
+  //     const res = await fetch("http://192.168.1.45:4000/account/web/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: email,
+  //         password: password,
+  //       }),
+  //     });
+  //     const result = await res.json();
+  //     console.log("res: ", result);
+  //     if (result.Authentication) {
+  //       history.push("/product/status");
+  //       localStorage.setItem("access_token", result.Authentication);
+  //       isCloseSignIn();
+  //     } else {
+  //       alert("정보를 잘못 입력 하셨습니다. 다시 입력해 주세요.");
+  //       setInputs({
+  //         email: "",
+  //         password: "",
+  //       });
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  const onLogin = useCallback(() => {
+    const params = {
+      email,
+      password,
+    };
+    dispatch(loginActions.post_login(params));
+  }, [email, password]);
 
   return (
     <Modal visible={visible}>

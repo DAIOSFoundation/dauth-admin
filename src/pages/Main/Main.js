@@ -1,23 +1,13 @@
-import React, { useEffect, useMemo, useCallback, useState, memo } from "react";
+import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import SignInModal from "./Modal/SignInModal";
 import SignUpModal from "./Modal/SignUpModal";
-import Input from "@material-ui/core/Input";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as loginActions from "../../store/modules/login/actions";
 
 const Main = () => {
-  const dispatch = useDispatch();
   const [signInModal, setSignInModal] = useState(false);
   const [signUpModal, setSignUpModal] = useState(false);
-  const { email, users } = useSelector(
-    (state) => ({
-      email: state.login.email,
-      users: state.login.users,
-    }),
-    shallowEqual
-  );
+
   const openSignInModal = () => {
     console.log("signin modal open");
     setSignInModal(true);
@@ -35,51 +25,9 @@ const Main = () => {
     setSignUpModal(false);
   };
 
-  const handleInputChange = (e) => {
-    dispatch(loginActions.change_email(e.target.value));
-  };
-
-  useEffect(() => {
-    if (email) {
-      // console.log('rerendered!!')
-    }
-  }, [email]);
-
-  const tryLogin = useCallback(() => {
-    const params = {
-      email,
-    };
-    dispatch(loginActions.post_login(params));
-  }, [email]);
-
-  const userIds = useMemo(() => {
-    let userString = "userString: ";
-    for (let i = 0; i < users.length; i++) {
-      userString = userString + users[i]._id;
-    }
-    return userString;
-  }, [users]);
-
   return (
     <MainPage>
       <Header>
-        <Input
-          onChange={handleInputChange}
-          defaultValue=""
-          inputProps={{ "aria-label": "description" }}
-        />
-        <div>{email}</div>
-        <br />
-        {userIds}
-        <Button onClick={tryLogin}>로그인</Button>
-        {users && users.length > 0
-          ? users.map((item, index) => (
-              <div key={index}>
-                <div>{item.name}</div>
-                <div>{item.firebaseToken}</div>
-              </div>
-            ))
-          : null}
         <BoxWrap>
           <Link to="#">
             <span>Introduce</span>
