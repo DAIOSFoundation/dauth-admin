@@ -7,7 +7,7 @@ const initialState = {
   password: "",
   loginSuccessMsg: "",
   loginFailedMsg: "",
-  users: [],
+  jwt: "",
 };
 
 const login = handleActions(
@@ -17,10 +17,15 @@ const login = handleActions(
         draft.email = action.payload;
       });
     },
+    [LOGIN.CHANGE_PASSWORD]: (state, action) => {
+      return produce(state, (draft) => {
+        draft.password = action.payload;
+      });
+    },
     [LOGIN.POST_LOGIN_SUCCESS]: (state, action) => {
       return produce(state, (draft) => {
-        console.log("POST_LOGIN_SUCCESS => ", action.payload.data);
-        draft.users = action.payload.data;
+        console.log("POST_LOGIN_SUCCESS => ", action.payload);
+        draft.jwt = action.payload.Authentication;
       });
     },
     [LOGIN.POST_LOGIN_FAILED]: (state, action) => {
