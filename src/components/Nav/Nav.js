@@ -20,7 +20,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import logo from "../../images/logo.png";
 import NavDetail from "./NavDetail/NavDetail";
 import styled from "styled-components";
-
+import DefaultButton from "../Button/DefaultButton";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -125,12 +125,12 @@ export default function PersistentDrawerLeft({ children }) {
           >
             <MenuIcon />
           </IconButton>
-          <div>
-            <Typography variant="h6" noWrap>
+          <NavList>
+            <Typography variant="h6" noWrap className="title">
               DAuth Admin
             </Typography>
-            <button>button</button>
-          </div>
+            <DefaultButton className="logout">로그아웃</DefaultButton>
+          </NavList>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -173,3 +173,18 @@ export default function PersistentDrawerLeft({ children }) {
     </div>
   );
 }
+
+const NavList = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 37px;
+  .title {
+    display: flex;
+    align-items: center;
+  }
+  .logout {
+    background-color: none;
+  }
+`;

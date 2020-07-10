@@ -36,7 +36,7 @@ const Main = () => {
         <BoxNav>
           <NavList>
             <li>
-              <Button type="button" onClick={openSignInModal}>
+              <Button type="button">
                 <span># 상품보기</span>
               </Button>
             </li>
