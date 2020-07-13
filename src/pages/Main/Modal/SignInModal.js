@@ -32,11 +32,14 @@ const SignInModal = ({ visible, isCloseSignIn }) => {
     //   ...inputs,
     //   [name]: value,
     // });
-    if (name === "email") {
-      dispatch(loginActions.change_email(value));
-    } else {
-      dispatch(loginActions.change_password(value));
-    }
+    name === "email"
+      ? dispatch(loginActions.change_email(value))
+      : dispatch(loginActions.change_password(value));
+    // if (name === "email") {
+    //   dispatch(loginActions.change_email(value));
+    // } else {
+    //   dispatch(loginActions.change_password(value));
+    // }
   };
 
   // const onLogin = async () => {

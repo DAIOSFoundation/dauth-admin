@@ -1,66 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 import Modal from "../../../components/Modal/Modal";
 import SignInputBox from "../../../components/InputBox/SignInputBox";
 import Button from "../../../components/Button/Button";
 import SecondaryButton from "../../../components/Button/SecondaryButton";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import * as registerActions from "../../../store/modules/register/actions";
 
 const SignUpModal = ({ visible, isCloseSignUp }) => {
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-    rePassword: "",
-  });
+  // const [inputs, setInputs] = useState({
+  //   email: "",
+  //   password: "",
+  //   rePassword: "",
+  // });
 
-  const { email, password, rePassword } = inputs;
+  // const { email, password, rePassword } = inputs;
+  // const onChange = (e) => {
+  //   const { value, name } = e.target;
+  //   setInputs({
+  //     ...inputs,
+  //     [name]: value,
+  //   });
+  // };
+  const { email, password, rePassword } = useSelector(
+    (state) => ({
+      email: state.register.email,
+      password: state.register.password,
+      rePassword: state.register.rePassword,
+    }),
+    shallowEqual
+  );
+  //const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+  // const onSignUp = async () => {
+  //   console.log("onSignUp: ", inputs);
+  //   if (email === "" && password === "" && rePassword === "") {
+  //     alert("정보 입력바람");
+  //   }
+  //   try {
+  //     if (email.match(regExp) !== null && password === rePassword) {
+  //       const res = await fetch(
+  //         "http://192.168.1.45:4000/account/web/register",
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             email: email,
+  //             password: password,
+  //           }),
+  //         }
+  //       );
+  //       //const result = await res.json();
+
+  //       if (res.status === 201) {
+  //         alert("회원가입 성공");
+  //         isCloseSignUp();
+  //       }
+  //     } else {
+  //       alert("다시 입력해주세요");
+  //       setInputs({
+  //         email: "",
+  //         password: "",
+  //         rePassword: "",
+  //       });
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+  const dispatch = useDispatch();
+
   const onChange = (e) => {
     const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-  const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
-  const onSignUp = async () => {
-    console.log("onSignUp: ", inputs);
-    if (email === "" && password === "" && rePassword === "") {
-      alert("정보 입력바람");
-    }
-    try {
-      if (email.match(regExp) !== null && password === rePassword) {
-        const res = await fetch(
-          "http://192.168.1.45:4000/account/web/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify({
-              email: email,
-              password: password,
-            }),
-          }
-        );
-        //const result = await res.json();
-
-        if (res.status === 201) {
-          alert("회원가입 성공");
-          isCloseSignUp();
-        }
-      } else {
-        alert("다시 입력해주세요");
-        setInputs({
-          email: "",
-          password: "",
-          rePassword: "",
-        });
-      }
-    } catch (e) {
-      console.error(e);
+    if (name === "email") {
+      dispatch(registerActions.change_email(value));
+    } else if (name === "password") {
+      dispatch(registerActions.change_password(value));
+    } else {
+      dispatch(registerActions.change_rePassword(value));
     }
   };
 
+  const onSignUp = useCallback(() => {
+    const params = {
+      email,
+      password,
+      rePassword,
+    };
+    dispatch(registerActions.post_register(params));
+  }, [email, password, rePassword]);
   return (
     <Modal visible={visible}>
       <SignInModalPage>
