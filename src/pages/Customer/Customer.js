@@ -81,7 +81,7 @@ const Customer = () => {
       endDate,
       name,
     };
-    dispatch(customerActions.post_customer(params));
+    dispatch(customerActions.post_customer({ params, setPostsArr, setTotal }));
 
     // const token = localStorage.getItem("access_token");
     // axios
@@ -151,7 +151,7 @@ const Customer = () => {
                   key={idx}
                   id={list.id}
                   usercode={list.id}
-                  user={list.user}
+                  name={list.name}
                   email={list.email}
                   createdAt={list.createdAt}
                 />

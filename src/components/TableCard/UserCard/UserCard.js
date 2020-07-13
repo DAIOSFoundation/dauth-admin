@@ -5,7 +5,7 @@ import CheckBox from "../../CheckBox/CheckBox";
 import Button from "../../Button/Button";
 import CustomerModal from "../../../pages/Customer/Modal/CustomerModal";
 
-const UserCard = ({ id, user, email, createdAt }) => {
+const UserCard = ({ id, name, email, createdAt }) => {
   const [customerModal, setCustomerModal] = useState(false);
 
   const onCustomerModal = () => {
@@ -20,7 +20,7 @@ const UserCard = ({ id, user, email, createdAt }) => {
         <CheckBox />
       </CheckBoxWrap>
       <UserCode>{id}</UserCode>
-      <UserName>{user}</UserName>
+      <UserName>{name}</UserName>
       <UserEmail>{email}</UserEmail>
       <RegisterDate>{createdAt}</RegisterDate>
       <Actions onClick={onCustomerModal}>
