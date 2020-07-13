@@ -78,18 +78,18 @@ const ProductStatus = () => {
   };
 
   const handleCheckBoxEach = (id, idx, e) => {
-    setIndex(idx);
-    setHandleId(id);
-    console.log("idx : ", index);
-    console.log("id : ", handleId);
-    if (index === id) {
-      setCheckBoxEach(e.target.checked);
-    }
-    if (checkBoxEach) {
-      setCheckBox(false);
-    } else if (!checkBoxEach) {
-      setCheckBox(true);
-    }
+    // setIndex(idx);
+    // setHandleId(id);
+    // console.log("idx : ", index);
+    // console.log("id : ", handleId);
+    // if (index === id) {
+    //   setCheckBoxEach(e.target.checked);
+    // }
+    // if (checkBoxEach) {
+    //   setCheckBox(false);
+    // } else if (!checkBoxEach) {
+    //   setCheckBox(true);
+    // }
   };
 
   return (
