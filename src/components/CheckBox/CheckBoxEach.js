@@ -17,7 +17,7 @@ export default function Checkboxes({
       <Checkbox
         color="primary"
         checked={checkBoxEach}
-        onChange={(e) => handleCheckBoxEach(e, id, idx)}
+        onChange={() => handleCheckBoxEach(id, idx)}
         inputProps={{ "aria-label": "secondary checkbox" }}
       />
       {/* <Checkbox inputProps={{ "aria-label": "uncontrolled-checkbox" }} />

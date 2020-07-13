@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import Nav from "../../components/Nav/Nav";
@@ -9,8 +10,8 @@ import UserCard from "../../components/TableCard/UserCard/UserCard";
 import Pagination from "../../components/Pagination/Pagination";
 import DefaultButton from "../../components/Button/DefaultButton";
 import url from "../../config";
-
-const axios = require("axios");
+import * as CUSTOMER from "../../libs/api/customer";
+import * as customerActions from "../../store/modules/customer/actions";
 
 const Customer = () => {
   const [search, setSearch] = useState(false);
@@ -22,6 +23,7 @@ const Customer = () => {
   const [checked, setChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
+  const dispatch = useDispatch();
 
   // useEffect(() => {
   //   const token = localStorage.getItem("access_token");
@@ -37,13 +39,17 @@ const Customer = () => {
 
   useEffect(() => {
     // const token = localStorage.getItem("access_token");
-    console.log("Get 실행");
-
-    axios.get("/data/userdata.json").then((res) => {
-      console.log(res.data);
-      setPostsArr(res.data.data);
-      setTotal(res.data.data.length);
-    });
+    // console.log("Get 실행");
+    // CUSTOMER.getCustomer(setPostsArr, setTotal);
+    // setPostsArr(res.data.data);
+    // setTotal(res.data.data.length);
+    // setPostsArr(res.data.data);
+    // setTotal(res.data.data.length);
+    // axios.get("/data/userdata.json").then((res) => {
+    //   console.log(res.data);
+    //   setPostsArr(res.data.data);
+    //   setTotal(res.data.data.length);
+    // });
   }, []);
 
   // Get current posts
@@ -55,42 +61,61 @@ const Customer = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleSearch = () => {
-    setSearch(true);
+  const { startDate, endDate, name } = useSelector(
+    () => ({
+      startDate: dateFrom,
+      endDate: dateTo,
+      name: input,
+    }),
+    shallowEqual
+  );
+
+  const handleSearch = useCallback(() => {
+    // setSearch(true);
     console.log("시작날짜 : ", dateFrom);
     console.log("종료날짜 : ", dateTo);
     console.log("고객명 : ", input);
     console.log("Post 실행");
+    const params = {
+      startDate,
+      endDate,
+      name,
+    };
+    dispatch(customerActions.post_customer(params));
+
     // const token = localStorage.getItem("access_token");
-    axios
-      .post(
-        "/data/userdata.json",
-        { startDate: "dateFrom", endDate: "dateTo", name: "input" },
-        {
-          headers: {
-            // "Content-Type": "application/json",
-            // Authorization: token,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-      });
+    // axios
+    //   .post(
+    //     "/data/userdata.json",
+    //     { startDate: "dateFrom", endDate: "dateTo", name: "input" },
+    //     {
+    //       headers: {
+    //         // "Content-Type": "application/json",
+    //         // Authorization: token,
+    //       },
+    //     }
+    //   )
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
     // .catch((err) => {
     //   console.log(err);
     // });
-  };
+  }, [startDate, endDate, name]);
 
   const handleInput = (e) => {
     setInput(e.target.value);
+    dispatch(customerActions.change_name(input));
   };
 
   const handleDateFrom = (e) => {
     setDateFrom(e.target.value);
+    dispatch(customerActions.change_startDate(dateFrom));
   };
 
   const handleDateTo = (e) => {
     setDateTo(e.target.value);
+    dispatch(customerActions.change_endDate(dateTo));
   };
 
   return (
