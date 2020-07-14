@@ -13,10 +13,18 @@ export const jsonHeader = () => {
   };
 };
 
-export const jsonUserTokenHeader = (token) => {
+// export const jsonUserTokenHeader = (token) => {
+//   return {
+//     "Content-Type": "application/json",
+//     user_token: token,
+//   };
+// };
+
+export const jsonUserTokenHeader = () => {
   return {
     "Content-Type": "application/json",
-    user_token: token,
+    Authentication:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNCwiaWF0IjoxNTk0NjMwNjQwfQ.YJjJIf_m_5cl0332FWn7KbngvrIwC1E9_h3mOTiMlh4",
   };
 };
 
