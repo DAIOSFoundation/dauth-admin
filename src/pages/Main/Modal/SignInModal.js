@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../../../components/Modal/Modal";
@@ -9,38 +9,34 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as loginActions from "../../../store/modules/login/actions";
 
 const SignInModal = ({ visible, isCloseSignIn }) => {
-  // const [inputs, setInputs] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-
-  const { email, password } = useSelector(
+  const { email, password, loginSuccessMsg, jwt } = useSelector(
     (state) => ({
-      email: state.login.email,
+      email: state.login.email, // index에 설정한 login
       password: state.login.password,
+      loginSuccessMsg: state.login.loginSuccessMsg,
+      jwt: state.login.jwt,
     }),
     shallowEqual
   );
 
-  //const { email, password } = inputs;
   const history = useHistory();
   const dispatch = useDispatch();
 
   const onChange = (e) => {
     const { value, name } = e.target;
-    // setInputs({
-    //   ...inputs,
-    //   [name]: value,
-    // });
     name === "email"
       ? dispatch(loginActions.change_email(value))
       : dispatch(loginActions.change_password(value));
-    // if (name === "email") {
-    //   dispatch(loginActions.change_email(value));
-    // } else {
-    //   dispatch(loginActions.change_password(value));
-    // }
   };
+
+  useEffect(() => {
+    console.log("useEffect");
+    if (loginSuccessMsg === "postLoginSuccess" && jwt) {
+      localStorage.setItem("access_token", jwt);
+      dispatch(loginActions.reset_message());
+      //history.push("/product/status");
+    }
+  }, [loginSuccessMsg, jwt]);
 
   // const onLogin = async () => {
   //   console.log("onLogin: ", inputs);
@@ -78,6 +74,9 @@ const SignInModal = ({ visible, isCloseSignIn }) => {
       email,
       password,
     };
+    if (email === "" && password === "") {
+      alert("정보를 입력해주세요");
+    }
     dispatch(loginActions.post_login(params));
   }, [email, password]);
 

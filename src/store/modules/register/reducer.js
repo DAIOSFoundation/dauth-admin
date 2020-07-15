@@ -10,6 +10,8 @@ const initialState = {
   registerFailedMsg: "",
 };
 
+// switch 문 대신 쓰는 handleActions
+// 액션 타입에 따른 작업 실행
 const register = handleActions(
   {
     [REGISTER.CHANGE_EMAIL]: (state, action) => {
