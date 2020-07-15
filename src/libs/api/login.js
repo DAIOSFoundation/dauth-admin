@@ -14,6 +14,7 @@ export const postLogin = async (param) => {
       param,
       jsonHeader()
     );
+    console.log("res: ", res);
     return res.data;
   } catch (e) {
     console.error(e);
