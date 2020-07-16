@@ -21,6 +21,7 @@ import logo from "../../images/logo.png";
 import NavDetail from "./NavDetail/NavDetail";
 import styled from "styled-components";
 import DefaultButton from "../Button/DefaultButton";
+import { useHistory } from "react-router-dom";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -105,7 +106,13 @@ export default function PersistentDrawerLeft({ children }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const history = useHistory();
+  const handleLogout = () => {
+    window.localStorage.clear();
+    alert("로그아웃 하셨습니다.");
+    history.push("/");
+    window.location.reload();
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -129,7 +136,9 @@ export default function PersistentDrawerLeft({ children }) {
             <Typography variant="h6" noWrap className="title">
               DAuth Admin
             </Typography>
-            <DefaultButton className="logout">로그아웃</DefaultButton>
+            <DefaultButton className="logout" onClick={handleLogout}>
+              로그아웃
+            </DefaultButton>
           </NavList>
         </Toolbar>
       </AppBar>

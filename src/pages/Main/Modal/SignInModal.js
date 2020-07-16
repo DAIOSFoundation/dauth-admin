@@ -33,8 +33,9 @@ const SignInModal = ({ visible, isCloseSignIn }) => {
     console.log("useEffect");
     if (loginSuccessMsg === "postLoginSuccess" && jwt) {
       localStorage.setItem("access_token", jwt);
+      alert("로그인 성공하셨습니다.");
       dispatch(loginActions.reset_message());
-      //history.push("/product/status");
+      history.push("/product/status");
     }
   }, [loginSuccessMsg, jwt]);
 
