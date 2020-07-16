@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Modal from "../../../components/Modal/Modal";
@@ -7,6 +7,7 @@ import Button from "../../../components/Button/Button";
 import SecondaryButton from "../../../components/Button/SecondaryButton";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as registerActions from "../../../store/modules/register/actions";
+import { allResolved } from "q";
 
 const SignUpModal = ({ visible, isCloseSignUp }) => {
   // const [inputs, setInputs] = useState({
@@ -31,7 +32,6 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
     }),
     shallowEqual
   );
-  //const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
   // const onSignUp = async () => {
   //   console.log("onSignUp: ", inputs);
@@ -84,13 +84,24 @@ const SignUpModal = ({ visible, isCloseSignUp }) => {
     }
   };
 
+  const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
   const onSignUp = useCallback(() => {
     const params = {
       email,
       password,
       rePassword,
     };
-    dispatch(registerActions.post_register(params));
+    if (email.match(regExp) !== null && password === rePassword) {
+      dispatch(registerActions.post_register(params));
+      alert("회웝가입 성공하셨습니다.");
+      isCloseSignUp();
+    } else if (email === "" && password === "" && rePassword === "") {
+      alert("정보를 입력해 주세요");
+    } else if (password !== rePassword) {
+      alert("비밀번호가 다릅니다. 다시 입력해주세요.");
+    } else {
+      alert("회원가입에 실패했습니다.");
+    }
   }, [email, password, rePassword]);
   return (
     <Modal visible={visible}>
